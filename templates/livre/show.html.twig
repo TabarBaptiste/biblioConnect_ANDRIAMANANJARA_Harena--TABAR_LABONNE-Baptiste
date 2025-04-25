@@ -90,14 +90,29 @@
         flex-wrap: wrap;
         margin-top: 2rem;
     }
+
+    .btn-delete {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        margin-top: 10px;
+    }
+
+    .btn-delete:hover {
+        background-color: #c0392b;
+    }
 </style>
-    {% for label, messages in app.flashes %}
+{% for label, messages in app.flashes %}
     {% for message in messages %}
         <div class="flash-message flash-{{ label }}">
             {{ message }}
         </div>
     {% endfor %}
-    {% endfor %}
+{% endfor %}
 <div class="book-detail-wrapper">
     <div class="book-info">
         <div class="book-title">{{ livre.titre }}</div>
@@ -139,10 +154,15 @@
             {% endif %}
         </div>
 
+        {% if nbReservations is not null and is_granted('ROLE_LIBRARIAN') %}
+            <div class="book-meta">
+                <span class="book-label">Réservations en attente :</span> {{ nbReservations }}
+            </div>
+        {% endif %}
         <div class="btn-wrapper">
             <a href="{{ path('app_livre') }}" class="btn-return">← Retour au catalogue</a>
 
-            {% if livre.stock > 0 and is_granted('ROLE_USER') %}
+            {% if livre.stock > 0 and is_granted('ROLE_USER') and reservationExistante is null %}
                 <a href="{{ path('app_livre_reserver', {id: livre.id}) }}" class="btn-reserve">Réserver ce livre</a>
             {% elseif not is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a href="{{ path('app_login') }}" class="btn-reserve">Se connecter pour réserver</a>
@@ -151,29 +171,37 @@
     </div>
 </div>
 <div class="book-detail-wrapper">
-    {% if comment_form %}
-        <h2>💬 Laisser un commentaire</h2>
-        <div class="comment-form">
-            {{ form_start(comment_form) }}
-                {{ form_row(comment_form.message) }}
-                {{ form_row(comment_form.note) }}
-                <button type="submit">Envoyer</button>
-            {{ form_end(comment_form) }}
-        </div>
-    {% endif %}
-
-    {% if livre.commentaires|length > 0 %}
-        <h2>🗨️ Avis des lecteurs</h2>
-        {% for commentaire in livre.commentaires %}
-            <div class="comment">
-                <strong>{{ commentaire.utilisateur.nom }} {{ commentaire.utilisateur.prenom }}</strong>
-                <small>le {{ commentaire.dateCommentaire|date('d/m/Y') }}</small>
-                <p>{{ commentaire.message }}</p>
-                <div class="note">⭐ {{ commentaire.note }}/5</div>
+    <div class="book-info">
+        {% if comment_form %}
+            <h2>💬 Laisser un commentaire</h2>
+            <div class="comment-form">
+                {{ form_start(comment_form) }}
+                    {{ form_row(comment_form.message) }}
+                    {{ form_row(comment_form.note) }}
+                    <button type="submit">Envoyer</button>
+                {{ form_end(comment_form) }}
             </div>
-        {% endfor %}
-    {% else %}
-        <p class="no-comments">Aucun commentaire pour ce livre.</p>
-    {% endif %}
+        {% endif %}
+
+        {% if livre.commentaires|length > 0 %}
+            <h2>🗨️ Avis des lecteurs</h2>
+            {% for commentaire in livre.commentaires %}
+                <div class="comment">
+                    <strong>{{ commentaire.utilisateur.nom }} {{ commentaire.utilisateur.prenom }}</strong>
+                    <small>le {{ commentaire.dateCommentaire|date('d/m/Y') }}</small>
+                    <p>{{ commentaire.message }}</p>
+                    <div class="note">⭐ {{ commentaire.note }}/5</div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <form method="post" action="{{ path('admin_comment_delete', {'id': commentaire.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commentaire.id) }}">
+                            <button type="submit" class="btn-delete">Supprimer</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-comments">Aucun commentaire pour ce livre.</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

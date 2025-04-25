@@ -62,6 +62,12 @@ final class LivreController extends AbstractController
             }
         }
 
+        $reservationExistante = $entityManager->getRepository(Reservation::class)->findOneBy([
+            'utilisateur' => $user,
+            'livre' => $livre,
+        ]);
+
+        // Moyenne des notes des commentaires
         $commentaires = $livre->getCommentaires();
         $noteMoyenne = null;
 
@@ -81,10 +87,15 @@ final class LivreController extends AbstractController
             }
         }
 
+        // Nombre de réservations pour le livre
+        $nbReservations = $livre->getReservations()->count();
+
         return $this->render('livre/show.html.twig', [
             'livre' => $livre,
             'comment_form' => $form ? $form->createView() : null,
             'noteMoyenne' => $noteMoyenne, 
+            'nbReservations' => $nbReservations,
+            'reservationExistante' => $reservationExistante,
         ]);
     }
 
@@ -120,16 +131,25 @@ final class LivreController extends AbstractController
         $reservation->setLivre($livre);
         $reservation->setDateReservation(new \DateTime());
 
-        // Update the book's availability
-        // $livre->setDisponible(false);
-
         $livre->setStock($stock - 1);
         $entityManager->persist($reservation);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Le livre a bien été réservé. Vous pouvez consulter vos livres réservés dans votre profil.');
+        $this->addFlash('success', 'Livre réservé ! Consultez vos livres réservés dans votre profil.');
 
         return $this->redirectToRoute('app_livre_show', ['id' => $livre->getId()]);
+    }
 
+    #[Route('/admin/comment/{id}/delete', name: 'admin_comment_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function deleteComment(Commentaire $commentaire, EntityManagerInterface $entityManager): Response
+    {
+        $livre = $commentaire->getLivre();
+        $entityManager->remove($commentaire);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Commentaire supprimé.');
+
+        return $this->redirectToRoute('app_livre_show', ['id' => $livre->getId()]);
     }
 }

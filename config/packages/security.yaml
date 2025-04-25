@@ -12,8 +12,8 @@ security:
 
     role_hierarchy:
         ROLE_USER: [ROLE_USER]
-        ROLE_LIBRARIAN: [ROLE_LIBRARIAN]
-        ROLE_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_LIBRARIAN: [ROLE_USER]
+        ROLE_ADMIN: [ROLE_LIBRARIAN, ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
 
     firewalls:
         dev:
