@@ -9,8 +9,6 @@ BiblioConnect est une plateforme web de gestion de bibliothèque en ligne, perme
 - [Installation](#installation)
 - [Fonctionnalités](#fonctionnalités)
 - [Rôles et permissions](#rôles-et-permissions)
-- [Structure du projet](#structure-du-projet)
-- [Contribuer](#contribuer)
 - [Auteurs](#auteurs)
 
 ## Technologies utilisées
@@ -62,15 +60,15 @@ DATABASE_URL="mysql://root:password@127.0.0.1:3306/biblioconnect"
 Ensuite, créez une base de données dans MySQL :
 
 ```bash
-php bin/console doctrine:database:create;
+php bin/console doctrine:database:create
 ```
 
 ### Étape 4 : Appliquez les migrations
 
-
 ```bash
 php bin/console make:migration
 ```
+
 ```bash
 php bin/console doctrine:migrations:migrate
 ```
@@ -85,7 +83,7 @@ Vous pouvez maintenant démarrer le serveur de développement Symfony avec la co
 php bin/console server:start
 ```
 
-Le site sera accessible à l'adresse : [http://localhost:8000](http://localhost:8000).
+Le site sera accessible à l'adresse : [http://http://127.0.0.1/:8000](http://http://127.0.0.1/:8000).
 
 ## Fonctionnalités
 
@@ -107,5 +105,5 @@ Les administrateurs ont la possibilité de modifier les rôles des autres utilis
 
 ## Auteurs
 
-- **Baptiste TABAR LABONNE** - [https://github.com/TabarBaptiste]
+- **Baptiste TABAR LABONNE** - [https://github.com/TabarBaptiste](https://github.com/TabarBaptiste)
 - **Harena ANDRIAMANANJARA MANDIMBY**
