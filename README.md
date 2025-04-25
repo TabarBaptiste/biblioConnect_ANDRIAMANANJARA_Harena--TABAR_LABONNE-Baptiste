@@ -105,52 +105,7 @@ L'application utilise un système de rôles basé sur Symfony Security pour cont
 
 Les administrateurs ont la possibilité de modifier les rôles des autres utilisateurs (mais pas le leur).
 
-## Structure du projet
-
-Voici une vue d'ensemble de la structure du projet :
-
-```
-src/
-├── Controller/                # Contrôleurs du projet
-│   ├── LivreController.php    # Gère l'affichage des livres
-│   ├── LibrarianLivreController.php  # Gère l'affichage pour les bibliothécaires
-│   └── UserController.php     # Gère les utilisateurs et les rôles
-├── Entity/                    # Entités (User, Livre, Reservation, etc.)
-│   ├── User.php               # Entité utilisateur
-│   ├── Livre.php              # Entité livre
-│   └── Reservation.php        # Entité réservation
-├── Repository/                # Repositories pour accéder aux données de la base
-│   ├── UserRepository.php     # Accès aux utilisateurs
-│   └── LivreRepository.php    # Accès aux livres
-├── Security/                  # Configurations de sécurité et gestion des rôles
-│   └── SecurityController.php # Contrôleur pour la gestion de la connexion et de la déconnexion
-templates/
-├── base.html.twig             # Template de base pour toutes les pages
-├── livre/                     # Templates pour la gestion des livres
-│   └── index.html.twig        # Affichage des livres
-├── user/                      # Templates pour la gestion des utilisateurs
-│   └── show.html.twig         # Profil de l'utilisateur
-└── security/                  # Template pour la page de connexion
-    └── login.html.twig        # Formulaire de connexion
-public/
-└── assets/                    # Ressources publiques (CSS, JS, images)
-config/
-└── packages/                  # Configuration des packages Symfony
-    └── security.yaml          # Configuration de la sécurité et des rôles
-    └── routes.yaml            # Configuration des routes
-```
-
-## Contribuer
-
-Les contributions à ce projet sont les bienvenues. Si vous souhaitez contribuer, voici quelques étapes pour vous aider à démarrer :
-
-1. Forkez le repository
-2. Créez une branche pour votre fonctionnalité (`git checkout -b feature-nouvelle-fonctionnalité`)
-3. Commitez vos modifications (`git commit -am 'Ajout d\'une fonctionnalité'`)
-4. Poussez vos changements (`git push origin feature-nouvelle-fonctionnalité`)
-5. Ouvrez une pull request pour discuter de vos modifications
-
 ## Auteurs
 
 - **Baptiste TABAR LABONNE** - [https://github.com/TabarBaptiste]
-- **Baptiste ANDRIAMANANJARA MANDIMBY** - [Votre profil GitHub ou autre lien]
+- **Harena ANDRIAMANANJARA MANDIMBY**
