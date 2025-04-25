@@ -1,0 +1,179 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Livre - BiblioConnect{% endblock %}
+
+{% block body %}
+<style>
+    .book-detail-wrapper {
+        max-width: 900px;
+        margin: 2rem auto;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .book-cover {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+    }
+
+    .book-info {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .book-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .book-meta {
+        color: #666;
+        font-size: 1rem;
+    }
+
+    .book-label {
+        font-weight: bold;
+        color: #444;
+    }
+
+    .reserve-status {
+        margin-top: 1rem;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        background-color: #f0f0f0;
+        font-weight: bold;
+        color: #333;
+        display: inline-block;
+        width: fit-content;
+    }
+
+    .reserve-status.reserved {
+        background-color: #ffcdd2;
+        color: #b71c1c;
+    }
+
+    .reserve-status.available {
+        background-color: #c8e6c9;
+        color: #1b5e20;
+    }
+
+    .btn-return,
+    .btn-reserve {
+        margin-top: 1.5rem;
+        display: inline-block;
+        text-decoration: none;
+        background-color: #ccaa6f;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        transition: background 0.3s ease;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .btn-return:hover,
+    .btn-reserve:hover {
+        background-color: #b89359;
+    }
+
+    .btn-wrapper {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+</style>
+    {% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-message flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endfor %}
+<div class="book-detail-wrapper">
+    <div class="book-info">
+        <div class="book-title">{{ livre.titre }}</div>
+        {% if noteMoyenne %}
+            <div style="font-size: 1.1rem; color: #f39c12; font-weight: bold;">
+                {% for i in 1..5 %}
+                    {% if noteMoyenne >= i %}
+                        ⭐
+                    {% elseif noteMoyenne >= i - 0.5 %}
+                        ✴️
+                    {% else %}
+                        ☆
+                    {% endif %}
+                {% endfor %}
+                <span style="color: #444; font-size: 0.95rem;">({{ noteMoyenne }}/5)</span>
+            </div>
+        {% else %}
+            <div style="color: #888; font-size: 0.95rem;">Pas encore de note pour ce livre</div>
+        {% endif %} 
+        <div class="book-meta">
+            <span class="book-label">Auteur :</span> {{ livre.auteur }}
+        </div>
+        <div class="book-meta">
+            <span class="book-label">Thème :</span> {{ livre.theme }}
+        </div>
+        <div class="book-meta">
+            <span class="book-label">Catégorie :</span> {{ livre.categorie }}
+        </div>
+        <div class="book-meta">
+            <span class="book-label">Langue :</span> {{ livre.langue }}
+        </div>
+
+        <div class="book-meta">
+            <span class="book-label">Stock :</span>
+            {% if livre.stock is defined and livre.stock <= 0 %}
+                Désolé, il n'y a plus d'exemplaire disponible !
+            {% else %}
+                {{ livre.stock }}
+            {% endif %}
+        </div>
+
+        <div class="btn-wrapper">
+            <a href="{{ path('app_livre') }}" class="btn-return">← Retour au catalogue</a>
+
+            {% if livre.stock > 0 and is_granted('ROLE_USER') %}
+                <a href="{{ path('app_livre_reserver', {id: livre.id}) }}" class="btn-reserve">Réserver ce livre</a>
+            {% elseif not is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ path('app_login') }}" class="btn-reserve">Se connecter pour réserver</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="book-detail-wrapper">
+    {% if comment_form %}
+        <h2>💬 Laisser un commentaire</h2>
+        <div class="comment-form">
+            {{ form_start(comment_form) }}
+                {{ form_row(comment_form.message) }}
+                {{ form_row(comment_form.note) }}
+                <button type="submit">Envoyer</button>
+            {{ form_end(comment_form) }}
+        </div>
+    {% endif %}
+
+    {% if livre.commentaires|length > 0 %}
+        <h2>🗨️ Avis des lecteurs</h2>
+        {% for commentaire in livre.commentaires %}
+            <div class="comment">
+                <strong>{{ commentaire.utilisateur.nom }} {{ commentaire.utilisateur.prenom }}</strong>
+                <small>le {{ commentaire.dateCommentaire|date('d/m/Y') }}</small>
+                <p>{{ commentaire.message }}</p>
+                <div class="note">⭐ {{ commentaire.note }}/5</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-comments">Aucun commentaire pour ce livre.</p>
+    {% endif %}
+</div>
+{% endblock %}

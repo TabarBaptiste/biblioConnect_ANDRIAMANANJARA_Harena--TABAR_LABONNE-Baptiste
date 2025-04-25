@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - BiblioConnect{% endblock %}
+
+{% block body %}
+<div class="form-wrapper">
+    <h1 class="form-title">Se connecter</h1>
+
+    {% if error %}
+        <div class="form-error">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    <form action="{{ path('app_login') }}" method="post" class="bento-form">
+        <label for="username">Email</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" required class="form-input">
+
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="_password" required class="form-input">
+
+        <button type="submit" class="bento-btn">Connexion</button>
+    </form>
+</div>
+{% endblock %}

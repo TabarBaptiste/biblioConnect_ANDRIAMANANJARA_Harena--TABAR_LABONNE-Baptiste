@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ user.nom }}{% endblock %}
+
+{% block body %}
+<style>
+    .profile-wrapper {
+        max-width: 800px;
+        margin: 3rem auto;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .profile-wrapper h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    .profile-wrapper p {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 1rem;
+    }
+
+    .profile-wrapper h2 {
+        font-size: 1.4rem;
+        color: #222;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .reservations-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .reservations-list li {
+        background-color: #f9f9f9;
+        border: 1px solid #e0e0e0;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+        color: #444;
+    }
+
+    .btn-return {
+        display: inline-block;
+        margin-top: 2rem;
+        background-color: #ccaa6f;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-return:hover {
+        background-color: #b89359;
+    }
+
+    hr {
+        margin: 2rem 0;
+        border: none;
+        border-top: 1px solid #ddd;
+    }
+
+    .no-reservation {
+        font-style: italic;
+        color: #888;
+    }
+</style>
+
+<div class="profile-wrapper">
+    <h1>👤 Profil de {{ user.nom }} {{ user.prenom }}</h1>
+    <p><strong>Email :</strong> {{ user.email }}</p>
+
+    <hr>
+
+    <h2>📚 Livres réservés</h2>
+
+    {% if reservations|length > 0 %}
+        <ul class="reservations-list">
+            {% for reservation in reservations %}
+                <a href="{{ path('app_livre_show', {'id': reservation.livre.id}) }}" class="faux-lien">
+                <li>
+                    <strong>{{ reservation.livre.titre }}</strong><br>
+                    Réservé le {{ reservation.dateReservation|date('d/m/Y') }}
+                </li></a>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-reservation">Aucune réservation pour le moment.</p>
+    {% endif %}
+
+    <a href="{{ path('app_livre') }}" class="btn-return">← Retour au catalogue</a>
+</div>
+{% endblock %}

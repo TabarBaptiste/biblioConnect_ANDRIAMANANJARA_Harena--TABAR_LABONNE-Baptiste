@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription utilisateur{% endblock %}
+
+{% block body %}
+<div class="form-wrapper">
+    <h1 class="form-title">Créer un compte</h1>
+
+    {{ form_start(form, {'attr': {'class': 'bento-form'}}) }}
+
+        {{ form_row(form.email, {'attr': {'class': 'form-input'}}) }}
+        {{ form_row(form.nom, {'attr': {'class': 'form-input'}}) }}
+        {{ form_row(form.prenom, {'attr': {'class': 'form-input'}}) }}
+        {{ form_row(form.plainPassword, {
+            'label': "Mot de passe",
+            'attr': {'class': 'form-input'}
+        }) }}
+
+        <button class="bento-btn">S’inscrire</button>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}
