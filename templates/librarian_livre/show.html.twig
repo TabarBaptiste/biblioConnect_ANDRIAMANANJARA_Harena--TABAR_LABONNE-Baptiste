@@ -38,9 +38,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_livre_index') }}">back to list</a>
+    <a href="{{ path('app_librarian_livre_index') }}">back to list</a>
 
-    <a href="{{ path('app_admin_livre_edit', {'id': livre.id}) }}">edit</a>
+    <a href="{{ path('app_librarian_livre_edit', {'id': livre.id}) }}">edit</a>
 
-    {{ include('admin_livre/_delete_form.html.twig') }}
+    {{ include('librarian_livre/_delete_form.html.twig') }}
 {% endblock %}

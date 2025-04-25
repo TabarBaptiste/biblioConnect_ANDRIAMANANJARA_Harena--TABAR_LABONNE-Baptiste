@@ -29,8 +29,8 @@
                 <td>{{ livre.langue }}</td>
                 <td>{{ livre.stock }}</td>
                 <td>
-                    <a href="{{ path('app_admin_livre_show', {'id': livre.id}) }}">show</a>
-                    <a href="{{ path('app_admin_livre_edit', {'id': livre.id}) }}">edit</a>
+                    <a href="{{ path('app_librarian_livre_show', {'id': livre.id}) }}">show</a>
+                    <a href="{{ path('app_librarian_livre_edit', {'id': livre.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_livre_new') }}">Create new</a>
+    <a href="{{ path('app_librarian_livre_new') }}">Create new</a>
 {% endblock %}

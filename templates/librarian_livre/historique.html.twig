@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des réservations{% endblock %}
+
+{% block body %}
+<h1>📖 Historique des réservations</h1>
+
+<table style="width: 100%; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: #f5f5f5;">
+            <th style="padding: 10px;">Utilisateur</th>
+            <th style="padding: 10px;">Livre</th>
+            <th style="padding: 10px;">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for res in reservations %}
+            <tr>
+                <td style="padding: 10px;">{{ res.utilisateur.nom }} {{ res.utilisateur.prenom }}</td>
+                <td style="padding: 10px;">{{ res.livre.titre }}</td>
+                <td style="padding: 10px;">{{ res.dateReservation|date('d/m/Y à H:i') }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucune réservation trouvée.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
