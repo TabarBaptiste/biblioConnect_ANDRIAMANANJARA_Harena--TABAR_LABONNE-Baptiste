@@ -108,6 +108,12 @@ h1, h2, h3, h4, h5, h6 {
     flex: 1;
 }
 
+.bento-actions a {
+    display: inline-block; /* ou block si tu préfères */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 /* Titres */
 .bento-title {
     font-size: 1.25rem;
