@@ -153,4 +153,3 @@ final class LivreController extends AbstractController
         return $this->redirectToRoute('app_livre_show', ['id' => $livre->getId()]);
     }
 }
-
