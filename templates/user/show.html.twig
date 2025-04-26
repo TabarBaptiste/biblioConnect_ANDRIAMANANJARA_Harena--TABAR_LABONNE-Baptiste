@@ -154,15 +154,21 @@ form {
     <h2>📚 Livres réservés</h2>
 
     {% if reservations|length > 0 %}
-        <ul class="reservations-list">
-            {% for reservation in reservations %}
+    <ul class="reservations-list">
+        {% for reservation in reservations %}
+            <li>
                 <a href="{{ path('app_livre_show', {'id': reservation.livre.id}) }}" class="faux-lien">
-                <li>
                     <strong>{{ reservation.livre.titre }}</strong><br>
                     Réservé le {{ reservation.dateReservation|date('d/m/Y') }}
-                </li></a>
-            {% endfor %}
-        </ul>
+                </a>
+                <form action="{{ path('app_user_reservation_delete', {'id': reservation.id}) }}" method="post" style="display: inline;">
+                    <button type="submit" style="margin-left: 1rem; background: #e74c3c; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 5px; cursor: pointer;">
+                        Supprimer
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
     {% else %}
         <p class="no-reservation">Aucune réservation pour le moment.</p>
     {% endif %}

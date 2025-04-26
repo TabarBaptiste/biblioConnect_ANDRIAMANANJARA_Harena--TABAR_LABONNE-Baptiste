@@ -29,7 +29,7 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/{id}/update-role', name: 'app_user_update_role', methods: ['POST'])]
+    #[Route('admin/user/{id}/update-role', name: 'app_user_update_role', methods: ['POST'])]
     public function updateRole(User $user, Request $request, EntityManagerInterface $em, UserRepository $userRepository): Response
     {
         // Empêcher de changer son propre rôle
@@ -55,7 +55,7 @@ final class UserController extends AbstractController
         return $this->redirectToRoute('app_user_show', ['id' => $user->getId()]);
     }
 
-    #[Route('/user', name: 'app_user')]
+    #[Route('admin/user', name: 'app_user')]
     public function user(UserRepository $userRepository): Response
     {
         $users = $userRepository->findAll();
@@ -63,4 +63,27 @@ final class UserController extends AbstractController
             'users' => $users,
         ]);
     }
+
+    #[Route('reservation/{id}/delete', name: 'app_user_reservation_delete', methods: ['POST'])]
+    public function deleteReservation(int $id, ReservationRepository $reservationRepository, EntityManagerInterface $em): Response
+    {
+        $reservation = $reservationRepository->find($id);
+
+        if (!$reservation) {
+            throw $this->createNotFoundException('Réservation non trouvée.');
+        }
+
+        // Vérifie que l'utilisateur connecté est bien celui qui a fait la réservation
+        if ($reservation->getUtilisateur() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer cette réservation.');
+        }
+
+        $em->remove($reservation);
+        $em->flush();
+
+        $this->addFlash('success', 'Réservation supprimée.');
+        $currentUser = $this->getUser();
+        return $this->redirectToRoute('app_user_show', ['id' => $currentUser->getId()]);
+    }
+
 }

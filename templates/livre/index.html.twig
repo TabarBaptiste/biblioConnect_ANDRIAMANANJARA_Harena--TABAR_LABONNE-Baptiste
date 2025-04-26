@@ -106,7 +106,9 @@
 		<input type="text" name="search" value="{{ search }}" placeholder="Rechercher un livre ou un auteur..." class="search-input">
 		<button type="submit" class="search-button">🔍 Rechercher</button>
 	</form>
-
+	{% if is_granted('ROLE_LIBRARIAN') %}
+		<a href="{{ path('app_librarian_livre_new') }}">Create new</a>
+	{% endif %}
 	<div class="bento-container">
 		{% for livre in livres %}
 			<div class="bento-card">
@@ -116,6 +118,9 @@
 						{{ livre.auteur }}</div>
 					<div class="bento-actions">
 						<a href="{{ path('app_livre_show', {'id': livre.id}) }}" class="bento-btn">Voir détails</a>
+						{% if is_granted('ROLE_LIBRARIAN') %}
+							<a href="{{ path('app_librarian_livre_edit', {'id': livre.id}) }}">Modifier</a>
+						{% endif %}
 					</div>
 				</div>
 			</div>

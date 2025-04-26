@@ -11,11 +11,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use App\Repository\LivreRepository;
 use App\Entity\Livre;
+use App\Form\LivreType;
 use App\Entity\Reservation;
 use App\Form\CommentaireType;
 use App\Entity\Commentaire;
+use App\Repository\ReservationRepository;
 
-#[Route('/livre')]
+// #[Route('/livre')]
 final class LivreController extends AbstractController
 {
     #[Route('/', name: 'app_livre')]
@@ -39,7 +41,7 @@ final class LivreController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_livre_show', methods: ['GET', 'POST'])]
+    #[Route('/{id}', name: 'app_livre_show', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function show(Livre $livre, Request $request, EntityManagerInterface $entityManager): Response
     {
         $commentaire = new Commentaire();
@@ -110,7 +112,7 @@ final class LivreController extends AbstractController
         ]);
     }
 
-    #[Route('/livre/{id}/reserver', name: 'app_livre_reserver')]
+    #[Route('/{id}/reserver', name: 'app_livre_reserver')]
     #[IsGranted('ROLE_USER')]
     public function reserver(Livre $livre, EntityManagerInterface $entityManager): Response
     {
@@ -162,5 +164,64 @@ final class LivreController extends AbstractController
         $this->addFlash('success', 'Commentaire supprimé.');
 
         return $this->redirectToRoute('app_livre_show', ['id' => $livre->getId()]);
+    }
+
+    #[Route('librarian/new', name: 'app_librarian_livre_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $livre = new Livre();
+        $form = $this->createForm(LivreType::class, $livre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($livre);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_livre', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('livre/new.html.twig', [
+            'livre' => $livre,
+            'form' => $form,
+        ]);
+    }
+
+    
+    #[Route('librarian/{id}/edit', name: 'app_librarian_livre_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(LivreType::class, $livre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_livre', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('livre/edit.html.twig', [
+            'livre' => $livre,
+            'form' => $form,
+        ]);
+    }
+    #[Route('librarian/{id}', name: 'app_librarian_livre_delete', methods: ['POST'])]
+    public function delete(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $livre->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($livre);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_livre', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('librarian/historique', name: 'librarian_livre_historique')]
+    public function historique(ReservationRepository $reservationRepository): Response
+    {
+        $reservations = $reservationRepository->findBy([], ['dateReservation' => 'DESC']);
+
+        return $this->render('livre/historique.html.twig', [
+            'reservations' => $reservations,
+        ]);
     }
 }
