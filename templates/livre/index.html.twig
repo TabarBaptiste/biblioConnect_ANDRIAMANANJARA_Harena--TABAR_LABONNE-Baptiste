@@ -4,101 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	<style>
-		.bento-container {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-			gap: 1.5rem;
-			padding: 2rem;
-			background: #f9f9f9;
-		}
-
-		.bento-card {
-			background-color: white;
-			border-radius: 1rem;
-			box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
-			overflow: hidden;
-			display: flex;
-			flex-direction: column;
-			transition: transform 0.3s ease;
-		}
-
-		.bento-card:hover {
-			transform: translateY(-5px);
-		}
-
-		.bento-image {
-			height: 200px;
-			object-fit: cover;
-			width: 100%;
-		}
-
-		.bento-content {
-			padding: 1rem;
-			display: flex;
-			flex-direction: column;
-			flex: 1;
-		}
-
-		.bento-title {
-			font-size: 1.2rem;
-			font-weight: bold;
-			margin-bottom: 0.5rem;
-		}
-
-		.bento-author {
-			font-style: italic;
-			color: #555;
-			margin-bottom: 1rem;
-		}
-
-		.bento-actions {
-			margin-top: auto;
-		}
-
-		.bento-btn {
-			background-color: #ccaa6f;
-			color: white;
-			padding: 0.5rem 1rem;
-			border: none;
-			border-radius: 0.5rem;
-			text-decoration: none;
-			text-align: center;
-			display: inline-block;
-		}
-
-		.bento-btn:hover {
-			background-color: #b6955e;
-		}
-
-		.search-form {
-			display: flex;
-			justify-content: center;
-			margin-bottom: 20px;
-		}
-
-		.search-input {
-			padding: 8px 12px;
-			width: 300px;
-			border: 1px solid #ccc;
-			border-radius: 8px 0 0 8px;
-			font-size: 16px;
-		}
-
-		.search-button {
-			padding: 8px 16px;
-			border: none;
-			background-color: #4CAF50;
-			color: white;
-			border-radius: 0 8px 8px 0;
-			cursor: pointer;
-			font-size: 16px;
-		}
-
-		.search-button:hover {
-			background-color: #45a049;
-		}
-	</style>
 
 	<h1 class="text-center mt-4">📚 Catalogue des Livres</h1>
 
@@ -107,7 +12,7 @@
 		<button type="submit" class="search-button">🔍 Rechercher</button>
 	</form>
 	{% if is_granted('ROLE_LIBRARIAN') %}
-		<a href="{{ path('app_librarian_livre_new') }}">Create new</a>
+		<a href="{{ path('app_librarian_livre_new') }}">➕ Ajouter un nouveau livre</a>
 	{% endif %}
 	<div class="bento-container">
 		{% for livre in livres %}
@@ -119,7 +24,7 @@
 					<div class="bento-actions">
 						<a href="{{ path('app_livre_show', {'id': livre.id}) }}" class="bento-btn">Voir détails</a>
 						{% if is_granted('ROLE_LIBRARIAN') %}
-							<a href="{{ path('app_librarian_livre_edit', {'id': livre.id}) }}">Modifier</a>
+							<a href="{{ path('app_librarian_livre_edit', {'id': livre.id}) }}" class="btn-edit">✏️ Modifier</a>
 						{% endif %}
 					</div>
 				</div>

@@ -30,7 +30,7 @@
                 <span class="nav-user">
                     <a href="{{ path('app_user_show', { id: app.user.id }) }}"
                         class="nav-user nav-link">
-                        {{ app.user.prenom }}
+                        Hello {{ app.user.prenom }} !
                     </a>
                 </span>
                 {% if is_granted('ROLE_LIBRARIAN') %}

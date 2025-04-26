@@ -3,52 +3,6 @@
 {% block title %}Liste des utilisateurs - BiblioConnect{% endblock %}
 
 {% block body %}
-<style>
-    .user-container {
-        max-width: 1000px;
-        margin: 2rem auto;
-        padding: 1rem;
-    }
-
-    .user-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
-
-    .user-card {
-        background-color: white;
-        border-radius: 1rem;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-        padding: 1.5rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        text-align: center;
-    }
-
-    .user-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-    }
-
-    .user-name {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 0.5rem;
-        text-decoration: none;
-        display: block;
-    }
-
-    .user-name:hover {
-        color: #ccaa6f;
-    }
-
-    .user-email {
-        font-size: 0.95rem;
-        color: #666;
-    }
-</style>
 
 <div class="user-container">
     <h1 class="text-center">👥 Liste des utilisateurs</h1>

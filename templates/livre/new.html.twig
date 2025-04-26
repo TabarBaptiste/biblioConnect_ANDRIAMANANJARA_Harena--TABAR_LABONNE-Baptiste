@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Livre{% endblock %}
+{% block title %}Ajout d'un Livre - BiblioConnect{% endblock %}
 
 {% block body %}
-    <h1>Create new Livre</h1>
+<div class="form-wrapper">
+    <h1 class="form-title">➕ Ajouter un nouveau livre</h1>
 
-    {{ include('livre/_form.html.twig') }}
+    {{ form_start(form, {'attr': {'class': 'bento-form'}}) }}
+        {{ form_widget(form) }}
+        <button class="bento-btn">✔️ Ajouter</button>
+    {{ form_end(form) }}
 
-    <a href="{{ path('app_livre') }}">back to list</a>
+    <div class="btn-wrapper">
+        <a href="{{ path('app_livre') }}" class="btn-return">← Retour au catalogue</a>
+    </div>
+</div>
 {% endblock %}

@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Livre{% endblock %}
+{% block title %}Modifier le Livre{% endblock %}
 
 {% block body %}
-    <h1>Edit Livre</h1>
+<div class="form-wrapper">
+    <h1 class="form-title">✏️ Modifier le Livre</h1>
 
-    {{ include('livre/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ form_start(form, {'attr': {'class': 'bento-form'}}) }}
+        {{ form_widget(form) }}
+        <button class="bento-btn">Mettre à jour</button>
+    {{ form_end(form) }}
 
-    <a href="{{ path('app_livre') }}">back to list</a>
+    <form method="post" action="{{ path('app_librarian_livre_delete', {'id': livre.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" style="display: inline;">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ livre.id) }}">
+            <button class="btn-delete">🗑️ Supprimer</button>
+    </form>
 
-    {{ include('livre/_delete_form.html.twig') }}
+    <div class="btn-wrapper">
+        <a href="{{ path('app_livre') }}" class="btn-return">← Retour à la liste</a>
+    </div>
+</div>
 {% endblock %}
