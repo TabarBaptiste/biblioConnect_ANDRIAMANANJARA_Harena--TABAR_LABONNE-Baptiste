@@ -227,6 +227,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .faux-lien {
     text-decoration: none;
+    color: #444;
 }
 
 .comment-section {

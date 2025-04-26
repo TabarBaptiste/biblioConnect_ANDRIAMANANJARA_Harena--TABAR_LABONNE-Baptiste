@@ -83,6 +83,10 @@ final class UserController extends AbstractController
 
         $this->addFlash('success', 'Réservation supprimée.');
         $currentUser = $this->getUser();
+        if (!$currentUser instanceof User) {
+            throw new \LogicException('L\'utilisateur n\'est pas connecté ou est invalide.');
+        }
+
         return $this->redirectToRoute('app_user_show', ['id' => $currentUser->getId()]);
     }
 
