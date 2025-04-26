@@ -78,6 +78,14 @@ final class UserController extends AbstractController
             throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer cette réservation.');
         }
 
+        // Récupérer le livre associé à la réservation
+        $livre = $reservation->getLivre();
+        if ($livre) {
+            // Augmenter le stock du livre
+            $livre->setStock($livre->getStock() + 1);
+            $em->persist($livre);
+        }
+
         $em->remove($reservation);
         $em->flush();
 
