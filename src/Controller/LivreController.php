@@ -113,7 +113,7 @@ final class LivreController extends AbstractController
     }
 
     #[Route('/{id}/reserver', name: 'app_livre_reserver')]
-    #[IsGranted('ROLE_USER')]
+    // #[IsGranted('ROLE_USER')]
     public function reserver(Livre $livre, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
