@@ -448,6 +448,10 @@ form {
     color: #0d1b2a;
 }
 
+.delete:hover {
+    color: red;
+}
+
 .nav-user {
     font-size: 0.95rem;
     color: #0d1b2a;
