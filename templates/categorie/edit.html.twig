@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la categorie{% endblock %}
+
+{% block body %}
+<div class="form-wrapper">
+    <h1 class="form-title">✏️ Modifier la categorie</h1>
+
+    {{ include('categorie/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    {{ include('categorie/_delete_form.html.twig') }}
+
+    <div class="btn-wrapper">
+        <a href="{{ path('app_categorie_index') }}" class="btn-return">← Retour à la liste</a>
+    </div>
+</div>
+{% endblock %}

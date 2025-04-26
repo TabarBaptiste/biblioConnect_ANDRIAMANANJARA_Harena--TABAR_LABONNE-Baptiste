@@ -761,3 +761,33 @@ body > main > a:hover {
     box-shadow: 0 8px 16px rgba(13, 27, 42, 0.2);
     
 }
+
+.action .btn-delete{
+    width: 35%;
+}
+
+.action .bento-btn {
+    width: 30%;
+}
+
+.bento-form select {
+    width: 98%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    background-color: #fdfdfd;
+    transition: border-color 0.2s ease-in-out;
+    margin-bottom: 1.25rem;
+    appearance: none; /* Pour enlever le style natif du navigateur */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='none' stroke='%23333' stroke-width='.8' d='M0 0l2 2 2-2'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.65rem auto;
+}
+
+.bento-form select:focus {
+    border-color: #ccaa6f; /* même focus que tes inputs */
+    outline: none;
+}

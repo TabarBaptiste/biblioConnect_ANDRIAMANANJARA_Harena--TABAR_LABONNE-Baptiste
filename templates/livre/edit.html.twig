@@ -11,7 +11,7 @@
         <button class="bento-btn">Mettre à jour</button>
     {{ form_end(form) }}
 
-    <form method="post" action="{{ path('app_librarian_livre_delete', {'id': livre.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" style="display: inline;">
+    <form method="post" action="{{ path('app_librarian_livre_delete', {'id': livre.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" style="display: inline;">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ livre.id) }}">
             <button class="btn-delete">🗑️ Supprimer</button>
     </form>

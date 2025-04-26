@@ -42,7 +42,7 @@ final class InscriptionController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_livre');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('inscription/index.html.twig', [

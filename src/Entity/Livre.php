@@ -24,11 +24,6 @@ class Livre
     #[ORM\Column(length: 255)]
     private ?string $theme = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $categorie = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $langue = null;
 
     #[ORM\Column]
     private ?int $stock = null;
@@ -44,6 +39,12 @@ class Livre
      */
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'livre')]
     private Collection $commentaires;
+
+    #[ORM\ManyToOne(inversedBy: 'livres')]
+    private ?Categorie $categorie = null;
+
+    #[ORM\ManyToOne(inversedBy: 'livres')]
+    private ?Langue $langue = null;
 
     public function __construct()
     {
@@ -88,30 +89,6 @@ class Livre
     public function setTheme(string $theme): static
     {
         $this->theme = $theme;
-
-        return $this;
-    }
-
-    public function getCategorie(): ?string
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(string $categorie): static
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    public function getLangue(): ?string
-    {
-        return $this->langue;
-    }
-
-    public function setLangue(string $langue): static
-    {
-        $this->langue = $langue;
 
         return $this;
     }
@@ -184,6 +161,30 @@ class Livre
                 $commentaire->setLivre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getLangue(): ?Langue
+    {
+        return $this->langue;
+    }
+
+    public function setLangue(?Langue $langue): static
+    {
+        $this->langue = $langue;
 
         return $this;
     }

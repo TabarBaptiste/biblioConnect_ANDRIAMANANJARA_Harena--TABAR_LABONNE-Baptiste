@@ -36,6 +36,7 @@
                 {% if is_granted('ROLE_LIBRARIAN') %}
                     <a href="{{ path('librarian_livre_historique') }}" class="nav-link">Historique réservations</a>
                     <a href="{{ path('app_user') }}" class="nav-link">Liste utilisateurs</a>
+                    <a href="{{ path('app_categorie_index') }}" class="nav-link">Catégorie</a>
                 {% endif %}
                 <a href="/logout" class="nav-link delete">Se déconnecter</a>
                 {% else %}
