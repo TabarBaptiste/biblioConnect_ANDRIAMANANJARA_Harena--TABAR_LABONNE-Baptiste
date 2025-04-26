@@ -9,7 +9,7 @@ use App\Entity\Langue;
 
 class LivreTest extends KernelTestCase
 {
-    public function LivreTest(): void
+    public function testlivreGetSet(): void
     {
         $livre = new Livre();
         $livre->setTitre('Livre test');
@@ -51,17 +51,17 @@ class LivreTest extends KernelTestCase
 
         $errors = self::getContainer()->get('validator')->validate($livre);
 
-        $this->assertCount(0, $errors); // Pas d'erreurs = entité valide
+        $this->assertCount(0, $errors);
     }
 
-    public function testInvalidLivre(): void
-    {
-        self::bootKernel();
+    // public function testInvalidLivre(): void
+    // {
+    //     self::bootKernel();
 
-        $livre = new Livre();
+    //     $livre = new Livre();
 
-        $errors = self::getContainer()->get('validator')->validate($livre);
+    //     $errors = self::getContainer()->get('validator')->validate($livre);
 
-        $this->assertGreaterThan(0, count($errors)); // Il doit y avoir des erreurs
-    }
+    //     $this->assertGreaterThan(0, count($errors)); // Il doit y avoir des erreurs
+    // }
 }

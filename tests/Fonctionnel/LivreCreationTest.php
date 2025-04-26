@@ -8,12 +8,21 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class LivreCreationTest extends WebTestCase
 {
+
+    public function testCatalogueAccessible()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('h1');
+    }
+
     private function loginUser($client)
     {
-        $user = self::getContainer()->get('doctrine')->getRepository(User::class)->findOneByEmail('admin@test.com');
+        $user = self::getContainer()->get('doctrine')->getRepository(User::class)->findOneByEmail('admin@example.com');
         
         if (!$user) {
-            throw new \Exception('Aucun utilisateur admin@test.com trouvé. Vérifie ta fixture.');
+            throw new \Exception('Aucun utilisateur admin@exemple.com trouvé. Vérifie ta fixture.');
         }
 
         $client->loginUser($user);
@@ -24,7 +33,7 @@ class LivreCreationTest extends WebTestCase
         $client = static::createClient();
         $this->loginUser($client);
 
-        $crawler = $client->request('GET', '/livre/new');
+        $crawler = $client->request('GET', 'librarian/new');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('form');
@@ -35,9 +44,11 @@ class LivreCreationTest extends WebTestCase
         $client = static::createClient();
         $this->loginUser($client);
 
-        $crawler = $client->request('GET', '/livre/new');
+        $crawler = $client->request('GET', '/librarian/new');
 
-        $form = $crawler->selectButton('Enregistrer')->form([
+        $this->assertResponseIsSuccessful();
+
+        $form = $crawler->selectButton('✔️ Ajouter')->form([
             'livre[titre]' => 'Nouveau Livre Test',
             'livre[auteur]' => 'Auteur Test',
             'livre[theme]' => 'Test Theme',
