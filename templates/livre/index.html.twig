@@ -1,91 +1,127 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catalogue des Livres - BiblioConnect{% endblock %}
+{% block title %}Catalogue des Livres - BiblioConnect
+{% endblock %}
 
 {% block body %}
-<style>
-    .bento-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        padding: 2rem;
-        background: #f9f9f9;
-    }
+	<style>
+		.bento-container {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 1.5rem;
+			padding: 2rem;
+			background: #f9f9f9;
+		}
 
-    .bento-card {
-        background-color: white;
-        border-radius: 1rem;
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        transition: transform 0.3s ease;
-    }
+		.bento-card {
+			background-color: white;
+			border-radius: 1rem;
+			box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			transition: transform 0.3s ease;
+		}
 
-    .bento-card:hover {
-        transform: translateY(-5px);
-    }
+		.bento-card:hover {
+			transform: translateY(-5px);
+		}
 
-    .bento-image {
-        height: 200px;
-        object-fit: cover;
-        width: 100%;
-    }
+		.bento-image {
+			height: 200px;
+			object-fit: cover;
+			width: 100%;
+		}
 
-    .bento-content {
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-    }
+		.bento-content {
+			padding: 1rem;
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+		}
 
-    .bento-title {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-    }
+		.bento-title {
+			font-size: 1.2rem;
+			font-weight: bold;
+			margin-bottom: 0.5rem;
+		}
 
-    .bento-author {
-        font-style: italic;
-        color: #555;
-        margin-bottom: 1rem;
-    }
+		.bento-author {
+			font-style: italic;
+			color: #555;
+			margin-bottom: 1rem;
+		}
 
-    .bento-actions {
-        margin-top: auto;
-    }
+		.bento-actions {
+			margin-top: auto;
+		}
 
-    .bento-btn {
-        background-color: #ccaa6f;
-        color: white;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 0.5rem;
-        text-decoration: none;
-        text-align: center;
-        display: inline-block;
-    }
+		.bento-btn {
+			background-color: #ccaa6f;
+			color: white;
+			padding: 0.5rem 1rem;
+			border: none;
+			border-radius: 0.5rem;
+			text-decoration: none;
+			text-align: center;
+			display: inline-block;
+		}
 
-    .bento-btn:hover {
-        background-color: #b6955e;
-    }
-</style>
+		.bento-btn:hover {
+			background-color: #b6955e;
+		}
 
-<h1 class="text-center mt-4">📚 Catalogue des Livres</h1>
+		.search-form {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 20px;
+		}
 
-<div class="bento-container">
-    {% for livre in livres %}
-        <div class="bento-card">
-            <div class="bento-content">
-                <div class="bento-title">{{ livre.titre }}</div>
-                <div class="bento-author">par {{ livre.auteur }}</div>
-                <div class="bento-actions">
-                    <a href="{{ path('app_livre_show', {'id': livre.id}) }}" class="bento-btn">Voir détails</a>
-                </div>
-            </div>
-        </div>
-    {% else %}
-        <p>Aucun livre trouvé.</p>
-    {% endfor %}
-</div>
+		.search-input {
+			padding: 8px 12px;
+			width: 300px;
+			border: 1px solid #ccc;
+			border-radius: 8px 0 0 8px;
+			font-size: 16px;
+		}
+
+		.search-button {
+			padding: 8px 16px;
+			border: none;
+			background-color: #4CAF50;
+			color: white;
+			border-radius: 0 8px 8px 0;
+			cursor: pointer;
+			font-size: 16px;
+		}
+
+		.search-button:hover {
+			background-color: #45a049;
+		}
+	</style>
+
+	<h1 class="text-center mt-4">📚 Catalogue des Livres</h1>
+
+	<form method="get" action="{{ path('app_livre') }}" class="search-form mb-4">
+		<input type="text" name="search" value="{{ search }}" placeholder="Rechercher un livre ou un auteur..." class="search-input">
+		<button type="submit" class="search-button">🔍 Rechercher</button>
+	</form>
+
+	<div class="bento-container">
+		{% for livre in livres %}
+			<div class="bento-card">
+				<div class="bento-content">
+					<div class="bento-title">{{ livre.titre }}</div>
+					<div class="bento-author">par
+						{{ livre.auteur }}</div>
+					<div class="bento-actions">
+						<a href="{{ path('app_livre_show', {'id': livre.id}) }}" class="bento-btn">Voir détails</a>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<p>Aucun livre trouvé.</p>
+		{% endfor %}
+	</div>
+
 {% endblock %}

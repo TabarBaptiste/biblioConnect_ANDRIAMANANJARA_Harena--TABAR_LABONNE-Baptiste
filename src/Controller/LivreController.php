@@ -19,12 +19,23 @@ use App\Entity\Commentaire;
 final class LivreController extends AbstractController
 {
     #[Route('/', name: 'app_livre')]
-    public function index(LivreRepository $livreRepository): Response
+    public function index(Request $request, LivreRepository $livreRepository): Response
     {
-        $livres = $livreRepository->findAll();
+        $search = $request->query->get('search');
+
+        if ($search) {
+            $livres = $livreRepository->createQueryBuilder('l')
+                ->where('l.titre LIKE :search OR l.auteur LIKE :search')
+                ->setParameter('search', '%' . $search . '%')
+                ->getQuery()
+                ->getResult();
+        } else {
+            $livres = $livreRepository->findAll();
+        }
 
         return $this->render('livre/index.html.twig', [
             'livres' => $livres,
+            'search' => $search,
         ]);
     }
 
@@ -93,7 +104,7 @@ final class LivreController extends AbstractController
         return $this->render('livre/show.html.twig', [
             'livre' => $livre,
             'comment_form' => $form ? $form->createView() : null,
-            'noteMoyenne' => $noteMoyenne, 
+            'noteMoyenne' => $noteMoyenne,
             'nbReservations' => $nbReservations,
             'reservationExistante' => $reservationExistante,
         ]);
