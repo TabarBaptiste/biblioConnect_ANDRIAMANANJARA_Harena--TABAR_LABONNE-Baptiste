@@ -106,4 +106,4 @@ Les administrateurs ont la possibilité de modifier les rôles des autres utilis
 ## Auteurs
 
 - **Baptiste TABAR LABONNE** - [https://github.com/TabarBaptiste](https://github.com/TabarBaptiste)
-- **Harena ANDRIAMANANJARA MANDIMBY**
+- **Harena ANDRIAMANANJARA MANDIMBY** - [https://github.com/AndriamHarena](https://github.com/AndriamHarena)
