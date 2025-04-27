@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Auteur
+{% endblock %}
+
+{% block body %}
+	<h1>{{ auteur.nom }}</h1>
+
+	<a href="{{ path('app_auteur_index') }}" class="btn-return">← Retour à la lsite</a>
+	{% if is_granted('ROLE_LIBRARIAN') %}
+		<a href="{{ path('app_auteur_edit', {'id': auteur.id}) }}" class="bento-btn">Modifier</a>
+	{% endif %}
+	<hr>
+	<h2>📚 Livres associés</h2>
+
+	{% if livresAssocies|length > 0 %}
+		<ul class="reservations-list">
+			{% for livre in livresAssocies %}
+				<li>
+					<a href="{{ path('app_livre_show', {'id': livre.id}) }}" class="faux-lien">
+						<strong>{{ livre.titre }}</strong>
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p class="no-reservation">Aucun livre associés.</p>
+	{% endif %}
+	{% if is_granted('ROLE_LIBRARIAN') %}
+		{{ include('auteur/_delete_form.html.twig') }}
+	{% endif %}
+{% endblock %}

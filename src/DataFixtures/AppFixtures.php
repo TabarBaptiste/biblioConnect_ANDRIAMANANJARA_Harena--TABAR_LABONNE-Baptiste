@@ -9,6 +9,7 @@ use App\Entity\Livre;
 use App\Entity\Categorie;
 use App\Entity\Langue;
 use App\Entity\User;
+use App\Entity\Auteur;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -45,15 +46,26 @@ class AppFixtures extends Fixture
             $langues[] = $langue;
         }
 
+        // ----- 2. Créer les Auteurs -----
+        $auteurs = [];
+        $nomsAuteurs = ['Albert Camus', 'Honoré de Balzac', 'Gustave Flaubert', 'Émile Zola', 'Victor Hugo', 'Jean-Paul Sartre', 'Guillaume Musso', 'Marc Levy'];
+
+        foreach ($nomsAuteurs as $nomAuteur) {
+            $auteur = new Auteur();
+            $auteur->setNom($nomAuteur);
+            $manager->persist($auteur);
+            $auteurs[] = $auteur;
+        }
+
         // ----- 3. Créer les livres -----
         for ($i = 1; $i <= 20; $i++) {
             $livre = new Livre();
             $livre->setTitre("Livre $i");
-            $livre->setAuteur("Auteur $i");
             $livre->setTheme("Thème $i");
             $livre->setStock(rand(1, 100));
 
             // Choisir une catégorie et une langue au hasard
+            $livre->setAuteur($auteurs[array_rand($auteurs)]);
             $livre->setCategorie($categories[array_rand($categories)]);
             $livre->setLangue($langues[array_rand($langues)]);
 

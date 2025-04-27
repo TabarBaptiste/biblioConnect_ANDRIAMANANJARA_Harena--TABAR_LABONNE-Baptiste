@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'auteur{% endblock %}
+
+{% block body %}
+<div class="form-wrapper">
+    <h1>✏️ Modifier l'auteur</h1>
+
+    {{ include('auteur/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    {{ include('auteur/_delete_form.html.twig') }}
+
+    <div class="btn-wrapper">
+        <a href="{{ path('app_auteur_index') }}" class="btn-return">← Retour à la liste</a>
+    </div>
+</div>
+{% endblock %}

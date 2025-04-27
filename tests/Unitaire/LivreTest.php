@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Entity\Livre;
 use App\Entity\Categorie;
 use App\Entity\Langue;
+use App\Entity\Auteur;
 
 class LivreTest extends KernelTestCase
 {
@@ -15,8 +16,8 @@ class LivreTest extends KernelTestCase
         $livre->setTitre('Livre test');
         $this->assertEquals('Livre test', $livre->getTitre());
 
-        $livre->setAuteur('Auteur test');
-        $this->assertEquals('Auteur test', $livre->getAuteur());
+        $auteur = new Auteur();
+        $auteur->setNom('Honoré de Balzac');
 
         $livre->setTheme('Theme test');
         $this->assertEquals('Theme test', $livre->getTheme());
@@ -43,7 +44,7 @@ class LivreTest extends KernelTestCase
 
         $livre = new Livre();
         $livre->setTitre('Livre test')
-            ->setAuteur('Auteur test')
+            ->setAuteur((new Auteur())->setNom('Honoré de Balzac'))
             ->setTheme('Theme test')
             ->setStock(100)
             ->setCategorie((new Categorie())->setNom('Roman'))

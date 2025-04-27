@@ -7,8 +7,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
+//* Entité
 use App\Entity\Categorie;
 use App\Entity\Langue;
+use App\Entity\Auteur;
 
 class LivreType extends AbstractType
 {
@@ -16,17 +19,28 @@ class LivreType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('auteur')
+            ->add('auteur', EntityType::class, [
+                'class' => Auteur::class,
+                'choice_label' => 'nom',
+                'empty_data' => null,
+                'placeholder' => 'Choisir un auteur',
+            ])
             ->add('theme')
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
-                'choice_label' => 'nom', // suppose que ta catégorie a un "nom"
+                'choice_label' => 'nom',
+                'empty_data' => null,
+                'placeholder' => 'Choisir une catégorie',
             ])
             ->add('langue', EntityType::class, [
                 'class' => Langue::class,
-                'choice_label' => 'nom', // suppose que ta langue a un "nom"
+                'choice_label' => 'nom',
+                'empty_data' => null,
+                'placeholder' => 'Choisir une langue',
             ])
-            ->add('stock')
+            ->add('stock', null, [
+                'attr' => ['min' => 0]
+            ])
         ;
     }
 

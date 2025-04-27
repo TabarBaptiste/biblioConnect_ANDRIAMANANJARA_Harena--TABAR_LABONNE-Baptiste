@@ -20,7 +20,7 @@
 				<div class="bento-content">
 					<div class="bento-title">{{ livre.titre }}</div>
 					<div class="bento-author">par
-						{{ livre.auteur }}</div>
+						{{ livre.auteur.nom }}</div>
 					<div class="bento-actions">
 						<a href="{{ path('app_livre_show', {'id': livre.id}) }}" class="bento-btn">Voir détails</a>
 						{% if is_granted('ROLE_LIBRARIAN') %}

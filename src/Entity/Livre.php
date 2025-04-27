@@ -19,9 +19,6 @@ class Livre
     private ?string $titre = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $auteur = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $theme = null;
 
 
@@ -46,6 +43,9 @@ class Livre
     #[ORM\ManyToOne(inversedBy: 'livres')]
     private ?Langue $langue = null;
 
+    #[ORM\ManyToOne(inversedBy: 'livres')]
+    private ?Auteur $auteur = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -65,18 +65,6 @@ class Livre
     public function setTitre(string $titre): static
     {
         $this->titre = $titre;
-
-        return $this;
-    }
-
-    public function getAuteur(): ?string
-    {
-        return $this->auteur;
-    }
-
-    public function setAuteur(string $auteur): static
-    {
-        $this->auteur = $auteur;
 
         return $this;
     }
@@ -185,6 +173,18 @@ class Livre
     public function setLangue(?Langue $langue): static
     {
         $this->langue = $langue;
+
+        return $this;
+    }
+
+    public function getAuteur(): ?Auteur
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?Auteur $auteur): static
+    {
+        $this->auteur = $auteur;
 
         return $this;
     }

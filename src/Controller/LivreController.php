@@ -186,7 +186,6 @@ final class LivreController extends AbstractController
         ]);
     }
 
-    
     #[Route('librarian/{id}/edit', name: 'app_librarian_livre_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
     {

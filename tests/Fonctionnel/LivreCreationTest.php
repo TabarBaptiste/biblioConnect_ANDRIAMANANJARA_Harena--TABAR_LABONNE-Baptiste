@@ -54,7 +54,7 @@ class LivreCreationTest extends WebTestCase
 
         $form = $crawler->selectButton('✔️ Ajouter')->form([
             'livre[titre]' => 'Nouveau Livre Test',
-            'livre[auteur]' => 'Auteur Test',
+            'livre[auteur]' => 1,
             'livre[theme]' => 'Test Theme',
             'livre[stock]' => 10,
             'livre[categorie]' => 1,

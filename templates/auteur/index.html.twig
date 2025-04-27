@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Auteur index{% endblock %}
+
+{% block body %}    
+{% if is_granted('ROLE_LIBRARIAN') %}
+<a href="{{ path('app_auteur_new') }}">Ajouter un auteur</a>
+{% endif %}
+<div class="bento-wrapper">
+    <h1>Auteurs</h1>
+
+    <div class="bento-table">
+        <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+				{% if is_granted('ROLE_LIBRARIAN') %}
+					<th>actions</th>
+				{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for auteur in auteurs %}
+            <tr>
+                <td><a href="{{ path('app_auteur_show', {'id': auteur.id}) }}" class="faux-lien">{{ auteur.nom }}</td></a>
+                {% if is_granted('ROLE_LIBRARIAN') %}
+                <td class="action">
+                    <a href="{{ path('app_auteur_edit', {'id': auteur.id}) }}" class="bento-btn">Modifier</a>
+                    {{ include('auteur/_delete_form.html.twig') }}                    
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun auteur trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+
+{% endblock %}
